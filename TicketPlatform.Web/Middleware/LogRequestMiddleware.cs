@@ -14,10 +14,12 @@ namespace TicketPlatform.Web.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
+        private readonly ILogger _logger_db;
         public LogRequestMiddleware(RequestDelegate next)
         {
             _next = next;
             _logger = LogManager.GetLogger("RequestLogger");
+            _logger_db= LogManager.GetLogger("DbLogger");
         }
 
         public async Task Invoke(HttpContext context)
@@ -37,6 +39,8 @@ namespace TicketPlatform.Web.Middleware
                 "",
                 context.Request.QueryString.HasValue?context.Request.QueryString.Value:"",
                 CollectionToString(context.Request.Cookies));
+            //数据库记录
+            _logger_db.Info("测试增加log");
             await _next(context);
         }
 

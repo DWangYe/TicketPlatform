@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NLog;
+using TicketPlatform.Web.Helper;
 using TicketPlatform.Web.Middleware;
+using TicketPlatform.Web.Repository;
 
 namespace TicketPlatform.Web
 {
     public class Startup
     {
+        private readonly string ConnectionString = JsonConfigurationHelper.GetAppSettings<ConfigDTO>("ConnectionString").value;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,7 +32,12 @@ namespace TicketPlatform.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+#if DEBUG
+            //本地调试不使用连接池
+            services.AddDbContext<TpContext>(options => options.UseSqlServer(ConnectionString));
+#else
+            services.AddDbContextPool<TpContext>(options => options.UseSqlServer(ConnectionString));
+#endif
             services.AddSingleton(typeof(ILogger), LogManager.GetLogger("FileLogger"));
         }
 
@@ -39,10 +48,9 @@ namespace TicketPlatform.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseStaticFiles();
+            app.UseStaticFiles();//使用静态文件
 
-            //记录原始请求,回复
-            app.Use(next => new LogRequestMiddleware(next).Invoke);
+            app.Use(next => new LogRequestMiddleware(next).Invoke);//记录原始请求,回复
 
             app.UseMvc();
             

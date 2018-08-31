@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
+using TicketPlatform.Web.Helper;
 
 namespace TicketPlatform.Web.Controllers
 {
@@ -11,7 +12,6 @@ namespace TicketPlatform.Web.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-
         private readonly ILogger logger;
 
         public ValuesController(ILogger logger)
@@ -30,7 +30,7 @@ namespace TicketPlatform.Web.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            return JsonConfigurationHelper.GetAppSettings<ConfigDTO>("ConnectionString").value;
         }
 
         // POST api/values

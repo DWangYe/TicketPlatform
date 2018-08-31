@@ -29,15 +29,15 @@ namespace TicketPlatform.Web.Controllers
         }
 
         // GET: api/BaseDictionaries/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetBaseDictionary([FromRoute] int id)
+        [HttpGet("{code}")]
+        public async Task<IActionResult> GetBaseDictionary([FromRoute] string code)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var baseDictionary = await _context.BaseDictionaries.FindAsync(id);
+            var baseDictionary = await _context.BaseDictionaries.FindAsync(code);
 
             if (baseDictionary == null)
             {

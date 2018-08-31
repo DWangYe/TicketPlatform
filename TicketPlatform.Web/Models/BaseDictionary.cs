@@ -11,9 +11,9 @@ namespace TicketPlatform.Web.Models
     public class BaseDictionary
     {
         public int ID { get; set; }
-        public int Code { get; set; }
-        public int Value { get; set; }
-        public int Remark { get; set; }
+        public string Code { get; set; }
+        public string Value { get; set; }
+        public string Remark { get; set; }
 
     }
 }

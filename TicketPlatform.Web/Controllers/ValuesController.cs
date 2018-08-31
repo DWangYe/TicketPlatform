@@ -23,13 +23,6 @@ namespace TicketPlatform.Web.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            for (int i = 0; i < 100; i++)
-            {
-                logger.Info(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff") + ",日志记录测试");
-                logger.Debug(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff") + ",日志记录测试");
-                logger.Error(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff") + ",日志记录测试");
-                logger.Fatal(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:fff") + ",日志记录测试");
-            }
             return new string[] { "value1", "value2" };
         }
 

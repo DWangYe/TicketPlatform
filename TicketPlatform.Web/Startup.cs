@@ -68,12 +68,14 @@ namespace TicketPlatform.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseErrorHandling();//全局异常拦截处理
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //开发环境取消注释，显示异常详细信息
+                //app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();//使用静态文件
-
+            
             #region swagger 配置
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

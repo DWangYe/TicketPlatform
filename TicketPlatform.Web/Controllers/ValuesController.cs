@@ -23,6 +23,7 @@ namespace TicketPlatform.Web.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            throw new IndexOutOfRangeException("数组超界啦。。");
             return new string[] { "value1", "value2" };
         }
 
